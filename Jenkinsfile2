@@ -1,0 +1,15 @@
+pipeline {
+    agent any
+    environment {
+        tenand_id     = credentials('tenant_id')
+        client_id = credentials('client_id')
+        client_secret = credentials('client_secret')
+    }
+    stages {
+        stage('Creating Azure user') {
+            steps {
+                sh 'python microsoft_entra_id/user/create_user.py'
+            }
+        }
+    }
+}
