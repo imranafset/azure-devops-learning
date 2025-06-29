@@ -1,19 +1,28 @@
 pipeline {
     agent any
-    environment {
-        tenant_id     = credentials('tenant_id')
-        client_id     = credentials('client_id')
-        client_secret = credentials('client_secret')
-    }
+
     stages {
         stage('Install dependencies') {
             steps {
+                // Using --break-system-packages is generally fine for isolated environments like containers
+                // or if you're sure about its implications on the system Python.
                 sh 'pip3 install --break-system-packages azure-identity msgraph-sdk'
             }
         }
         stage('Creating Azure user') {
             steps {
-                sh 'python3 create_user.py'
+                // Use withCredentials to expose the secrets as environment variables
+                // The 'variable' name here must match what your Python script expects (e.g., os.environ.get("tenant_id"))
+                withCredentials([
+                    // For Secret Text credentials:
+                    string(credentialsId: 'tenant_id', variable: 'tenant_id'),
+                    string(credentialsId: 'client_id', variable: 'client_id'),
+                    string(credentialsId: 'client_secret', variable: 'client_secret')
+                    // If your credentials were of type 'Secret File', you'd use:
+                    // file(credentialsId: 'my_secret_file_id', variable: 'MY_SECRET_FILE_PATH')
+                ]) {
+                    sh 'python3 create_user.py'
+                }
             }
         }
     }
