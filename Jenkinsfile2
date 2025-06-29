@@ -1,9 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.11'
-        }
-    }
+    agent any
     environment {
         tenant_id     = credentials('tenant_id')
         client_id     = credentials('client_id')
@@ -12,20 +8,12 @@ pipeline {
     stages {
         stage('Install dependencies') {
             steps {
-                sh '''
-                    python -m venv venv
-                    . venv/bin/activate
-                    pip install --upgrade pip
-                    pip install msgraph-sdk azure-identity
-                '''
+                sh 'pip3 install --break-system-packages azure-identity msgraph-sdk'
             }
         }
         stage('Creating Azure user') {
             steps {
-                sh '''
-                    . venv/bin/activate
-                    python create_user.py
-                '''
+                sh 'python3 create_user.py'
             }
         }
     }
