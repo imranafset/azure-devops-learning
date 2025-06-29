@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Creating Azure user') {
             steps {
-                sh 'python microsoft_entra_id/user/create_user.py'
+                sh 'python3 microsoft_entra_id/user/create_user.py'
             }
         }
     }
