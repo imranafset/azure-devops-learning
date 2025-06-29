@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        tenand_id     = credentials('tenant_id')
+        tenant_id     = credentials('tenant_id')
         client_id = credentials('client_id')
         client_secret = credentials('client_secret')
     }
