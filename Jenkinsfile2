@@ -1,11 +1,19 @@
 pipeline {
     agent any
     environment {
-        tenant_id     = credentials('tenant_id')
+        tenant_id = credentials('tenant_id')
         client_id = credentials('client_id')
         client_secret = credentials('client_secret')
     }
     stages {
+        stage('Install dependencies') {
+            steps {
+                sh 'python3 -m pip install --upgrade pip' 
+                sh 'pip3 install azure-identity msgraph-sdk'
+            }
+        }
+    
+    
         stage('Creating Azure user') {
             steps {
                 sh 'python3 create_user.py'
