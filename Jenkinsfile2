@@ -1,18 +1,22 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'python:3.11'
+        }
+    }
     environment {
         tenant_id     = credentials('tenant_id')
         client_id     = credentials('client_id')
         client_secret = credentials('client_secret')
     }
     stages {
-        stage('Set up Python environment') {
+        stage('Install dependencies') {
             steps {
                 sh '''
-                    python3 -m venv venv
+                    python -m venv venv
                     . venv/bin/activate
                     pip install --upgrade pip
-                    pip install azure-identity msgraph-sdk
+                    pip install msgraph-sdk azure-identity
                 '''
             }
         }
