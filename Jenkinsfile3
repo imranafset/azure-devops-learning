@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    parameters {
+        string(name: 'username',defaultValue: '', description:'Enter your username to create a new user')
+    }
 
     stages {
         stage('Install dependencies') {
