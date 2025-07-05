@@ -1,7 +1,9 @@
 pipeline {
     agent any
     parameters {
-        string(name: 'username',defaultValue: '', description:'Enter your username to create a new user')
+        string(name: 'dname',defaultValue: '', description:'Enter your display name of the user to create')
+        string(name: 'nname',defaultValue: '', description:'Enter your mail nickname of the user to create')
+        string(name: 'domain_name',defaultValue: '@imrankhan7210yahoo.onmicrosoft.com', description:'Enter your mail nickname of the user to create')
     }
 
     stages {
@@ -24,7 +26,10 @@ pipeline {
                     // If your credentials were of type 'Secret File', you'd use:
                     // file(credentialsId: 'my_secret_file_id', variable: 'MY_SECRET_FILE_PATH')
                 ]) {
-                    echo "User ${params.username}"
+                    echo "User ${params.dname} with nickname ${params.nname} will be created."
+                    export azure_dname = params.dname
+                    export azure_nname = params.nname
+                    export azure_domain = params.domain_name
                     sh 'python3 create_user.py'
                     
                 }
