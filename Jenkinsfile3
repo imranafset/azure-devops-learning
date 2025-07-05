@@ -29,7 +29,7 @@ pipeline {
                     echo "User ${params.dname} with nickname ${params.nname} will be created."
                     sh """
                         python3 create_user.py
-                        export azure_dname = ${params.dname}
+                        export azure_dname = \'${params.dname}\'
                         export azure_nname = ${params.nname}
                         export azure_domain = ${params.domain_name}
                     """
