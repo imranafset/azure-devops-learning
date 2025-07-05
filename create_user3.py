@@ -4,18 +4,38 @@ from msgraph.generated.models.user import User
 from msgraph.generated.models.password_profile import PasswordProfile
 import asyncio
 import os # Import the os module to access environment variables
+import argparse 
 
 # To initialize your graph_client, see https://learn.microsoft.com/en-us/graph/sdks/create-client?from=snippets&tabs=python
 
 # It's best practice to get these from environment variables, especially in Jenkins.
 # The Jenkins pipeline will inject these values into the environment.
-tenant_id = os.environ.get("tenant_id")
-client_id = os.environ.get("client_id")
-client_secret = os.environ.get("client_secret")
-azure_dname = os.environ.get("azure_dname")
-azure_nname = os.environ.get("azure_nname")
-azure_domain = os.environ.get("azure_domain")
-azure_upname = azure_nname + azure_domain
+# tenant_id = os.environ.get("tenant_id")
+# client_id = os.environ.get("client_id")
+# client_secret = os.environ.get("client_secret")
+# azure_dname = os.environ.get("azure_dname")
+# azure_nname = os.environ.get("azure_nname")
+# azure_domain = os.environ.get("azure_domain")
+# azure_upname = azure_nname + azure_domain
+parser = argparse.ArgumentParser()
+parser.add_argument('--tenant_id', required=True)
+parser.add_argument('--client_id', required=True)
+parser.add_argument('--client_secret', required=True)
+parser.add_argument('--azure_dname', required=True)
+parser.add_argument('--azure_nname', required=True)
+parser.add_argument('--azure_domain', required=True)
+parser.add_argument('--azure_upname', required=True)
+
+args = parser.parse_args()
+
+
+tenant_id = args.tenant_id
+client_id = args.client_id
+client_secret = args.client_secret
+azure_dname = args.azure_dname
+azure_nname = args.azure_nname
+azure_domain = args.azure_domain
+
 
 # --- IMPORTANT VALIDATION ---
 # Add a check to ensure environment variables are present
