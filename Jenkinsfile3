@@ -24,7 +24,9 @@ pipeline {
                     // If your credentials were of type 'Secret File', you'd use:
                     // file(credentialsId: 'my_secret_file_id', variable: 'MY_SECRET_FILE_PATH')
                 ]) {
+                    echo "User ${params.username}"
                     sh 'python3 create_user.py'
+                    
                 }
             }
         }
