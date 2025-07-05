@@ -27,11 +27,12 @@ pipeline {
                     // file(credentialsId: 'my_secret_file_id', variable: 'MY_SECRET_FILE_PATH')
                 ]) {
                     echo "User ${params.dname} with nickname ${params.nname} will be created."
-                    export azure_dname = params.dname
-                    export azure_nname = params.nname
-                    export azure_domain = params.domain_name
-                    sh 'python3 create_user.py'
-                    
+                    sh """
+                        python3 create_user.py'
+                        export azure_dname = ${params.dname}
+                        export azure_nname = ${params.nname}
+                        export azure_domain = ${params.domain_name}
+                    """
                 }
             }
         }
